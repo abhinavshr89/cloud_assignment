@@ -144,7 +144,15 @@ export default function GraphArea() {
         }}
         className='h-screen w-screen'
       >
-        <Controls />
+        <Controls 
+          position="top-right" 
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            gap: '4px',
+            color:'blue'
+          }}
+        />
         <Background />
       </ReactFlow>
     </div>
