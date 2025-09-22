@@ -1,47 +1,31 @@
-import { useState } from 'react';
+import { useFilter } from '../hooks/useFilter';
 
-const FilterPanel = ({ onFilterChange }) => {
-  const [activeFilter, setActiveFilter] = useState('all');
+const FilterPanel = () => {
+  const { handleFilterChange, filter } = useFilter();
 
-  const handleFilterChange = (filter) => {
-    setActiveFilter(filter);
-    onFilterChange(filter);
-  };
+  const filters = [
+    { key: 'all', label: '🌐 All Nodes', colorClass: 'bg-blue-500' },
+    { key: 'alerts', label: '🔺 Alerts Only', colorClass: 'bg-red-500' },
+    { key: 'misconfigs', label: '⚙️ Misconfigs Only', colorClass: 'bg-orange-500' }
+  ];
 
   return (
-    <div className="absolute top-4 left-4 z-10 bg-white p-4 rounded-lg shadow-lg border">
-      <h3 className="text-sm font-bold mb-3 text-gray-700">Filter Nodes</h3>
-      <div className="flex flex-col gap-2">
-        <button
-          onClick={() => handleFilterChange('all')}
-          className={`px-3 py-2 text-sm rounded transition-colors ${
-            activeFilter === 'all'
-              ? 'bg-blue-500 text-white'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-          }`}
-        >
-          🌐 All Nodes
-        </button>
-        <button
-          onClick={() => handleFilterChange('alerts')}
-          className={`px-3 py-2 text-sm rounded transition-colors ${
-            activeFilter === 'alerts'
-              ? 'bg-red-500 text-white'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-          }`}
-        >
-          🔺 Alerts Only
-        </button>
-        <button
-          onClick={() => handleFilterChange('misconfigs')}
-          className={`px-3 py-2 text-sm rounded transition-colors ${
-            activeFilter === 'misconfigs'
-              ? 'bg-orange-500 text-white'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-          }`}
-        >
-          ⚙️ Misconfigs Only
-        </button>
+    <div className="absolute top-4 left-4 z-10 bg-white p-3 rounded-lg shadow-lg border">
+      
+      <div className="flex gap-2">
+        {filters.map(({ key, label, colorClass }) => (
+          <button
+            key={key}
+            onClick={() => handleFilterChange(key)}
+            className={`px-3 py-2 text-xs rounded transition-colors whitespace-nowrap ${
+              filter === key 
+                ? `${colorClass} text-white` 
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+            }`}
+          >
+            {label}
+          </button>
+        ))}
       </div>
     </div>
   );
